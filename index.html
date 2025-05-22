@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="src/css/main.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <title>Notes App - Home</title>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <p>NotesApp</p>
+    </header>
+    <hr />
+    <div class="card-container"></div>
+    <button onclick="location.href='note.html';" class="fab">+</button>
+  </div>
+
+  <script>
+    const notes = JSON.parse(localStorage.getItem("notes") || "[]");
+
+    const container = document.querySelector('.card-container');
+    container.innerHTML = ''; // Очистка
+
+    if (notes.length === 0) {
+      container.innerHTML = '<p style="color: gray;">nothing found</p>';
+    } else {
+      notes.forEach(note => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', () => {
+          location.href = `note.html?id=${note.id}`;
+        });
+
+        card.innerHTML = `
+          <h3>${note.title || 'untitled'}</h3>
+          <p>${note.content?.substring(0, 100) || '...'}</p>
+          <p class="date">${note.date || ''}</p>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    console.log("Заметки загружены:", notes);
+  </script>
+</body>
+</html>

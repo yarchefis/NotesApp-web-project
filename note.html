@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="src/css/main.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <title>Notes App - Note</title>
+  <style>
+    .editable {
+      border: none;
+      background: none;
+      color: white;
+      font-family: inherit;
+      font-size: inherit;
+      width: 100%;
+      outline: none;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease-in-out;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header class="header">
+      <span onclick="location.href='index.html';" style="cursor: pointer;" class="material-symbols-outlined">arrow_back</span>
+      <div>
+        <span id="save-btn" style="cursor: pointer;" class="material-symbols-outlined">check_circle</span>
+        <span id="delete-btn" style="cursor: pointer; padding-left: 10px;" class="material-symbols-outlined">delete</span>
+      </div>
+    </header>
+    <hr />
+    <div class="note-container">
+      <p id="note-date">date</p>
+      <h1 id="note-title" class="editable" contenteditable="true">New notes</h1>
+      <p id="note-content" class="editable" contenteditable="true">...</p>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Сохранено</div>
+
+  <script>
+    const titleEl = document.getElementById('note-title');
+    const contentEl = document.getElementById('note-content');
+    const dateEl = document.getElementById('note-date');
+    const toastEl = document.getElementById('toast');
+    const noteId = new URLSearchParams(window.location.search).get('id') || crypto.randomUUID();
+
+    function showToast(text) {
+      toastEl.textContent = text;
+      toastEl.classList.add('show');
+      setTimeout(() => toastEl.classList.remove('show'), 2000);
+    }
+
+    function loadNote() {
+      const notes = JSON.parse(localStorage.getItem('notes') || '[]');
+      const note = notes.find(n => n.id === noteId);
+      if (note) {
+        titleEl.textContent = note.title;
+        contentEl.textContent = note.content;
+        dateEl.textContent = note.date;
+      } else {
+        const now = new Date();
+        const formattedDate = now.toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        });
+        dateEl.textContent = formattedDate;
+      }
+    }
+
+    function saveNote() {
+      const notes = JSON.parse(localStorage.getItem('notes') || '[]');
+      const index = notes.findIndex(n => n.id === noteId);
+      const newNote = {
+        id: noteId,
+        title: titleEl.textContent.trim(),
+        content: contentEl.textContent.trim(),
+        date: dateEl.textContent.trim(),
+      };
+      if (index >= 0) {
+        notes[index] = newNote;
+      } else {
+        notes.push(newNote);
+      }
+      localStorage.setItem('notes', JSON.stringify(notes));
+      showToast('Saved');
+    }
+
+    function deleteNote() {
+      const notes = JSON.parse(localStorage.getItem('notes') || '[]');
+      const filtered = notes.filter(n => n.id !== noteId);
+      localStorage.setItem('notes', JSON.stringify(filtered));
+      showToast('Deleted');
+      setTimeout(() => {
+        location.href = 'index.html';
+      }, 1200);
+    }
+
+    document.getElementById('save-btn').addEventListener('click', saveNote);
+    document.getElementById('delete-btn').addEventListener('click', deleteNote);
+
+    document.addEventListener('DOMContentLoaded', loadNote);
+  </script>
+</body>
+</html>

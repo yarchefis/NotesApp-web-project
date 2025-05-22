@@ -1,0 +1,82 @@
+body {
+    color: white;
+    background-color: #121212;
+    font-family: "Inter", sans-serif;
+}
+
+hr {
+    color: #262626;
+}
+
+.container {
+    margin: auto;
+    padding: 10px;
+    max-width: 600px;
+}
+
+.header {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header p {
+    margin: 0;
+}
+
+.header span {
+    color: #D9D9D9;
+}
+
+
+.card-container {
+    display: grid;
+      grid-template-columns: 1fr 1fr; /* Три столбца равной ширины */
+      grid-template-rows: 1fr 1fr; /* Две строки равной высоты */
+      gap: 10px; /* Зазор между ячейками */
+}
+
+.card {
+    background-color: #212121;
+    border: 1px solid black; /* Для видимости ячеек */
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.card h3 {
+    margin: 5px;
+}
+
+.card p {
+    color: gray;
+}
+
+.date {
+    font-size: 14px;
+}
+
+
+.fab {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #ff7700; /* или любой другой */
+  color: white;
+  border: none;
+  font-size: 36px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+
+.note-container p {
+    color: gray;
+}

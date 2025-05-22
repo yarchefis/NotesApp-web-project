@@ -61,6 +61,6 @@ python3 -m http.server
 Then open your browser at:
 http://localhost:8000
 
-take a look at my website. There are even more interesting projects there
-загляните ко мне на сайт. Там еще больше интересных проектов
-yardev.pw
+take a look at my website. There are even more interesting projects there    
+загляните ко мне на сайт. Там еще больше интересных проектов    
+[https://yardev.pw](https://yardev.pw)
